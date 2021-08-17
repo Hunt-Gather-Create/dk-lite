@@ -45,9 +45,8 @@
 
   /* Cards */
   [dk-card-front] {
-    visibility: visible;
     opacity: 1;
-    transition: visibility 250ms ease, opacity 250ms ease, transform 250ms ease;
+    transition: opacity 250ms ease, transform 250ms ease;
   }
   [dk-card-back] {
     visibility: hidden;
@@ -56,8 +55,8 @@
   }
   [dk-card].flipped [dk-card-front],
   [dk-card]:hover [dk-card-front] {
+    z-index: -1;
     transform: rotateY(180deg);
-    visibility: hidden;
     opacity: 0;
   }
   [dk-card].flipped [dk-card-back],
@@ -97,13 +96,13 @@
       display: block;
       cursor: pointer;
     }
-    [dk-nav] nav {
+    [dk-nav] .mobile-menu {
       transform: translateY(-100%);
       visibility: hidden;
       opacity: 0;
       transition: visibility 400ms ease, transform 400ms ease;
     }
-    [dk-nav].open nav {
+    [dk-nav].open .mobile-menu {
       transform: translateY(0);
       visibility: visible;
       opacity: 1;
