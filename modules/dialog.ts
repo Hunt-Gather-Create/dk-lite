@@ -7,6 +7,9 @@ class Dialog {
   cookie: Boolean
   modal: Boolean
   modalItself: null | HTMLElement
+  video: Boolean
+  videoEl: null | HTMLElement
+  videoSrc: null | string
   _id: string
 
   constructor(element: HTMLElement) {
@@ -16,6 +19,11 @@ class Dialog {
       focusTrapQuery: '[dk-dialog]',
     })
     this.cookie = this.element.hasAttribute('dk-dialog-cookies')
+    this.modal = this.element.hasAttribute('dk-dialog-modal')
+    this.modalItself = this.element.querySelector('[dk-modal-itself]')
+    this.video = this.element.hasAttribute('dk-dialog-video')
+    this.videoEl = this.element.querySelector('[dk-dialog-video-src]')
+    this.videoSrc = this.videoEl?.getAttribute('src')! + '?&autoplay=1&mute=0'
     this._id = this.element.id
 
     this.dkDialog.on('create', this.modalConstruction)
@@ -33,10 +41,11 @@ class Dialog {
   }
 
   modalConstruction = () => {
-    this.modal = this.element.hasAttribute('dk-dialog-modal')
-    if (this.modal) {
-      this.modalItself = document.querySelector('[dk-modal-itself]') || null
+    if(this.modal) {
       this.element.setAttribute('aria-modal', 'false')
+    }
+    if(this.video && this.videoSrc) {
+      this.videoEl?.setAttribute('dk-dialog-video-src', this.videoSrc)
     }
     this.element.setAttribute('aria-hidden', 'true')
   }
@@ -88,22 +97,27 @@ class Dialog {
   }
 
   handleDialogShow = () => {
-    if (this.modal) {
+    if(this.modal) {
       this.element.setAttribute('aria-modal', 'true')
       document.body.setAttribute('style', 'overflow: hidden; cursor: pointer;')
       document.addEventListener('click', this.closeOnOutsideClick, true)
+    }
+    if(this.video && this.videoSrc) {
+      this.videoEl?.setAttribute('src', this.videoSrc )
     }
     this.element.classList.add('open')
     this.element.removeAttribute('aria-hidden')
   }
 
   handleDialogHide = () => {
-    if (this.modal) {
+    if(this.modal) {
       this.element.setAttribute('aria-modal', 'false')
       document.body.removeAttribute('style')
       document.removeEventListener('click', this.closeOnOutsideClick, true)
     }
-
+    if(this.video && this.videoSrc) {
+      this.videoEl?.setAttribute('src', '')
+    }
     this.element.classList.remove('open')
     this.element.setAttribute('aria-hidden', 'true')
   }
@@ -115,8 +129,8 @@ class Dialog {
   }
 
   closeOnOutsideClick = (event: MouseEvent) => {
-    let isClickInside = event.target instanceof HTMLElement ? this.modalItself.contains(event.target) : null
-    if (!isClickInside) {
+    let isClickInside = event.target instanceof HTMLElement ? this.modalItself?.contains(event.target) : null
+    if(!isClickInside) {
       this.dkDialog.hide(event)
     }
   }
