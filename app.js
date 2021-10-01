@@ -6,6 +6,7 @@ import Accordion from './modules/accordion.ts'
 import Anchors from './modules/anchors.ts'
 import Cards from './modules/cards.ts'
 import Dropdowns from './modules/dropdowns.ts'
+import Videos from './modules/videos.ts'
 
 const App = () => {
   ConvertTags()
@@ -16,6 +17,7 @@ const App = () => {
   Anchors()
   Cards()
   Dropdowns()
+  Videos()
 }
 
 export default App
