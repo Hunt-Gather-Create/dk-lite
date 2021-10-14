@@ -83,6 +83,22 @@ class DKNav {
     this.navToggle?.setAttribute('aria-label', 'Close menu')
     document.body.setAttribute('style', 'overflow: hidden;')
     document.addEventListener('click', this.closeOnOutsideClick, true)
+
+    // Find all potential anchor links in the nav links list
+    const anchors = Array.from(this.menu?.querySelectorAll('[href^="#"]:not([href="#"]):not([href*="' + location.hostname + '"])')).concat(Array.from(this.menu?.querySelectorAll('[href^="/#"]')))
+    // Find all the elements on the page with an id
+    const elementsWithIds = Array.from(document.querySelectorAll('*[id]'))
+    // Build array containing those ids with a # in front of each
+    const ids = []
+    elementsWithIds.forEach( (elementWithId) => {
+      ids.push(`#${elementWithId.id}`)
+    })
+    // For any anchor links in nav that exist on this page, close nav on click
+    anchors.forEach( (anchor) => {
+      if(ids.includes(anchor.hash)) {
+        anchor.addEventListener('click', this.hide.bind(this))
+      }
+    })
   }
 
   handleHide = (_event: Event) => {

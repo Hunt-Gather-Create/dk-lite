@@ -5,7 +5,7 @@ const Anchors = () => {
     anchorLink.addEventListener('click', function() {
       const section = document.querySelector(anchorLink.getAttribute('href'))
       if (section) {
-        const sectionHeading = section.querySelector('h1' || 'h2' || 'h3' || 'h4' || 'h5' || 'h6')
+        let sectionHeading = section.querySelector('h1, h2, h3, h4, h5, h6')
         if (sectionHeading) {
           access(sectionHeading, true)
         }
