@@ -19,7 +19,12 @@ const Videos = () => {
           video.paused ? playVideo() : pauseVideo()
         })
         video.parentElement.appendChild(playPauseToggle)
-        video.removeAttribute('controls')
+
+        video.addEventListener('suspend', function() {
+          pauseVideo()
+          video.removeAttribute('controls')
+        })
+
 
         function playVideo() {
           video.play()
