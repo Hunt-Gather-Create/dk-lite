@@ -21,12 +21,11 @@ const Videos = () => {
         video.parentElement.appendChild(playPauseToggle)
 
         video.addEventListener('suspend', function() {
-          console.log('suspended')
+          // play then pause to reset the state to match ios
           playVideo()
           pauseVideo()
           video.removeAttribute('controls')
         })
-
 
         function playVideo() {
           video.play()
