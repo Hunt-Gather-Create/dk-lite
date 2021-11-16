@@ -1,5 +1,6 @@
 import DKDialog from './dk_dialog'
 import { convertTag } from '../utils/helpers'
+import { enableBodyScroll, disableBodyScroll } from 'body-scroll-lock'
 
 class DKNav {
   element: HTMLElement
@@ -81,7 +82,8 @@ class DKNav {
     this.menu?.removeAttribute('aria-hidden')
     this.navToggle?.setAttribute('aria-expanded', 'true')
     this.navToggle?.setAttribute('aria-label', 'Close menu')
-    document.body.setAttribute('style', 'overflow: hidden;')
+    // document.body.setAttribute('style', 'overflow: hidden;')
+    disableBodyScroll(this.element)
     document.addEventListener('click', this.closeOnOutsideClick, true)
 
     // Find all potential anchor links in the nav links list
@@ -106,7 +108,8 @@ class DKNav {
     this.menu?.setAttribute('aria-hidden', 'true')
     this.navToggle?.setAttribute('aria-expanded', 'false')
     this.navToggle?.setAttribute('aria-label', 'Open menu')
-    document.body.removeAttribute('style')
+    // document.body.removeAttribute('style')
+    enableBodyScroll(this.element)
     document.removeEventListener('click', this.closeOnOutsideClick, true)
   }
 
