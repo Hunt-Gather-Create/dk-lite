@@ -1,5 +1,6 @@
 import Cookies from 'js-cookie'
 import DKDialog from './dk_dialog'
+import { enableBodyScroll, disableBodyScroll } from 'body-scroll-lock'
 
 class Dialog {
   element: HTMLElement
@@ -99,7 +100,8 @@ class Dialog {
   handleDialogShow = () => {
     if(this.modal) {
       this.element.setAttribute('aria-modal', 'true')
-      document.body.setAttribute('style', 'overflow: hidden; cursor: pointer;')
+      // document.body.setAttribute('style', 'overflow: hidden; cursor: pointer;')
+      disableBodyScroll(this.element)
       document.addEventListener('click', this.closeOnOutsideClick, true)
     }
     if(this.video && this.videoSrc) {
@@ -112,7 +114,8 @@ class Dialog {
   handleDialogHide = () => {
     if(this.modal) {
       this.element.setAttribute('aria-modal', 'false')
-      document.body.removeAttribute('style')
+      // document.body.removeAttribute('style')
+      enableBodyScroll(this.element)
       document.removeEventListener('click', this.closeOnOutsideClick, true)
     }
     if(this.video && this.videoSrc) {
