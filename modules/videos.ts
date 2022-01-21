@@ -18,7 +18,7 @@ const Videos = () => {
         playPauseToggle.addEventListener('click', function() {
           video.paused ? playVideo() : pauseVideo()
         })
-        video.parentElement.appendChild(playPauseToggle)
+        video.parentElement?.appendChild(playPauseToggle)
 
         // video.addEventListener('suspend', function() {
         //   // play then pause to reset the state to match ios
