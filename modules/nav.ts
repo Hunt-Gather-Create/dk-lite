@@ -9,6 +9,7 @@ class DKNav {
   _mediaQuery: DKNav['mediaQuery']
   _navToggle: DKNav['navToggle']
   _id: string
+  _scrollableTarget: DKNav['scrollableTarget']
 
   constructor(element: HTMLElement) {
     this.element = element
@@ -18,6 +19,8 @@ class DKNav {
     })
     this.menu = element.querySelector(`#${element.getAttribute('dk-nav')}`)
     this._id = this.element.getAttribute('dk-nav') || this.element.id
+
+    this._scrollableTarget = this.element.querySelector('[dk-nav-scrollable-target]')
 
     this.dkDialog.on('create', this.toggleCreation)
     this.dkDialog.on('create', this.menuCreation)
@@ -83,7 +86,8 @@ class DKNav {
     this.navToggle?.setAttribute('aria-expanded', 'true')
     this.navToggle?.setAttribute('aria-label', 'Close menu')
     // document.body.setAttribute('style', 'overflow: hidden;')
-    disableBodyScroll(this.element)
+    //disableBodyScroll(this.element)
+    this._scrollableTarget ? disableBodyScroll(this._scrollableTarget) : disableBodyScroll(this.element)  // allow for different body-scroll-lock targetElement
     document.addEventListener('click', this.closeOnOutsideClick, true)
 
     // Find all potential anchor links in the nav links list
@@ -109,7 +113,8 @@ class DKNav {
     this.navToggle?.setAttribute('aria-expanded', 'false')
     this.navToggle?.setAttribute('aria-label', 'Open menu')
     // document.body.removeAttribute('style')
-    enableBodyScroll(this.element)
+    //enableBodyScroll(this.element)
+    this._scrollableTarget ? enableBodyScroll(this._scrollableTarget) : enableBodyScroll(this.element) // allow for different body-scroll-lock targetElement
     document.removeEventListener('click', this.closeOnOutsideClick, true)
   }
 
@@ -160,6 +165,12 @@ class DKNav {
     if (this._navToggle) return this._navToggle
     this._navToggle = this.element.querySelector('[dk-nav-toggle]')
     return this._navToggle
+  }
+
+  get scrollableTarget(): HTMLElement | null {
+    if (this._scrollableTarget) return this._scrollableTarget
+    this._scrollableTarget = this.element.querySelector('[dk-nav-scrollable-target]')
+    return this._scrollableTarget
   }
 }
 
