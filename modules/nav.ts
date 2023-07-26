@@ -114,7 +114,7 @@ class DKNav {
     this.navToggle?.setAttribute('aria-label', 'Open menu')
     // document.body.removeAttribute('style')
     //enableBodyScroll(this.element)
-    this._scrollableTarget ? disableBodyScroll(this._scrollableTarget) : disableBodyScroll(this.element) // allow for different body-scroll-lock targetElement
+    this._scrollableTarget ? enableBodyScroll(this._scrollableTarget) : enableBodyScroll(this.element) // allow for different body-scroll-lock targetElement
     document.removeEventListener('click', this.closeOnOutsideClick, true)
   }
 
